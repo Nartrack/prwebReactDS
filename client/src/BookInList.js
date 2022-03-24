@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import { postServiceData } from './util';
 import './App.css';
 
 class BookInList extends Component {
 	constructor(props) {
 		super(props);
-        
-        this.state = {canEdit: false, canGoBack: false};
-        this.editBook = this.editBook.bind(this);
-        this.deleteBook = this.deleteBook.bind(this);
+
+		this.state = {canEdit: false, canGoBack: false};
+		this.editBook = this.editBook.bind(this);
+		this.deleteBook = this.deleteBook.bind(this);
     }
 
     editBook(event) {
@@ -24,14 +24,18 @@ class BookInList extends Component {
             this.setState({canGoBack: true});
         });
     }
+        
 
     render() {
         let book = this.props.book;
-        if (this.state.canEdit){
-            return <Navigate push to={"/book/"+book.book_id}/>;
-        }
-        if (this.state.canGoBack){
-            return <Navigate push to={"/books/"}/>;
+		if (this.state.canEdit) {
+			return <Redirect push to={{
+                pathname: "/book",
+                state: {bookId: book.book_id}
+            }} />;
+		}
+        if (this.state.canGoBack) {
+            return <Redirect push to="/books" />;
         }
         return (
 			<tr>
@@ -50,3 +54,4 @@ class BookInList extends Component {
 }
 
 export default BookInList;
+

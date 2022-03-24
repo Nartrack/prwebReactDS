@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import { postServiceData } from './util';
 import './App.css';
 
 class Book extends Component {
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        const bookId = this.props.params.bookId;
-
-        this.state = {book_id: "NEW", book_title: "", book_authors: "", canGoBack: false};
+		this.state = {book_id: "NEW", book_title: "", book_authors: "", canGoBack: false};
 
         this.loadBook = this.loadBook.bind(this);
         this.saveBook = this.saveBook.bind(this);
@@ -17,13 +15,13 @@ class Book extends Component {
 		this.handleChangeBookAuthors = this.handleChangeBookAuthors.bind(this);
 
         // Populate state
-        if ((props.params.bookId  !== undefined) && (props.params.bookId  > 0)) {
+        if ((props.data.bookId  !== undefined) && (props.data.bookId  > 0)) {
             this.loadBook() ;
         }
     }
 
     loadBook() {
-        const params = { id: this.props.params.bookId };
+        const params = { id: this.props.data.bookId };
         postServiceData("book", params).then((data) => {
             let book = data[0];
             this.setState({book_id: book.book_id});
@@ -54,12 +52,12 @@ class Book extends Component {
 	}
 
     render() {
-    /*const token = this.props.getToken();
+    const token = this.props.getToken();
     if (!token) {
         return <Redirect push to="/" />;
-    }*/
+    }
     if (this.state.canGoBack) {
-        return <Navigate push to="/books" />;
+        return <Redirect push to="/books" />;
     }
     return (
       <div className="App">
@@ -77,7 +75,7 @@ class Book extends Component {
                      value={this.state.book_title} onChange={this.handleChangeBookTitle}/></td>
                 </tr>
                 <tr>
-                    <th>Author</th>
+                    <th>LastName</th>
                     <td><input type="text" size="60" 
                      value={this.state.book_authors} onChange={this.handleChangeBookAuthors}/></td>
             	</tr>
@@ -92,9 +90,5 @@ class Book extends Component {
   }
 }
 
-export default (props) => (
-    <Book
-        {...props}
-        params={useParams()} 
-    />
-);
+export default Book;
+

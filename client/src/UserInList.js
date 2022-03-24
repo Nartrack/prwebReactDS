@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import { postServiceData } from './util';
 import './App.css';
 
 class UserInList extends Component {
 	constructor(props) {
 		super(props);
-        
-        this.state = {canEdit: false, canGoBack: false};
-        this.editUser = this.editUser.bind(this);
-        this.deleteUser = this.deleteUser.bind(this);
+
+		this.state = {canEdit: false, canGoBack: false};
+		this.editUser = this.editUser.bind(this);
+		this.deleteUser = this.deleteUser.bind(this);
     }
 
     editUser(event) {
@@ -24,14 +24,18 @@ class UserInList extends Component {
             this.setState({canGoBack: true});
         });
     }
+        
 
     render() {
         let user = this.props.user;
-        if (this.state.canEdit){
-            return <Navigate push to={"/user/"+user.person_id}/>;
-        }
-        if (this.state.canGoBack){
-            return <Navigate push to={"/users/"}/>;
+		if (this.state.canEdit) {
+			return <Redirect push to={{
+                pathname: "/user",
+                state: {userId: user.person_id}
+            }} />;
+		}
+        if (this.state.canGoBack) {
+            return <Redirect push to="/users" />;
         }
         return (
 			<tr>

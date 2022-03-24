@@ -4,34 +4,34 @@ import BorrowInList from './BorrowInList';
 import './App.css';
 
 class Borrows extends Component {
-    constructor(props){
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.state={borrows: [], books: [], book_id: -1};
-        this.getBooks = this.getBooks.bind(this);
+		this.state = {borrows: [], books: [], book_id: -1};
+		this.getBooks = this.getBooks.bind(this);
 		this.getBorrows = this.getBorrows.bind(this);
 		this.handleChangeBook = this.handleChangeBook.bind(this);
 		this.borrowBook = this.borrowBook.bind(this);
 
 		this.getBooks();
 		this.getBorrows();
-    }
+	}
 
-    getBooks(){
-        const params = {ok:1};
+	getBooks() {
+		const params = {ok: 1};
 		postServiceData("books", params).then((data) => {
-            this.setState({books: data});
+			this.setState({books: data});
 		});
-    }
+	}
 
-    getBorrows(){
-        const params = {person_id: this.props.person_id};
+	getBorrows() {
+		const params = {person_id: this.props.person_id};
 		postServiceData("borrows", params).then((data) => {
-            this.setState({borrows: data});
-        });
-    }
-    
-    handleChangeBook(event) {
+			this.setState({borrows: data});
+		});
+	}
+
+	handleChangeBook(event) {
 		this.setState({book_id: event.target.value});
 	}
 
@@ -94,3 +94,4 @@ class Borrows extends Component {
 }
 
 export default Borrows;
+

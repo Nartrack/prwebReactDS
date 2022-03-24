@@ -3,13 +3,13 @@ import { postServiceData } from './util';
 import './App.css';
 
 class BorrowInList extends Component {
-    constructor(props){
-        super(props);
-        this.state = {borrow_id: this.props.borrow.borrow_id, borrow_return: this.props.borrow.borrow_return};
+	constructor(props) {
+		super(props);
+		this.state = {borrow_id: this.props.borrow.borrow_id, borrow_return: this.props.borrow.borrow_return};
 
 		this.returnBook = this.returnBook.bind(this);
     }
-    
+
     returnBook(event) {
         event.preventDefault();
 		let theDate = new Date().toISOString().slice(0, 10);
@@ -18,6 +18,7 @@ class BorrowInList extends Component {
             this.setState({borrow_return: theDate});
         });
     }
+        
 
     render() {
         let theBorrowDate = new Date(this.props.borrow.borrow_date).toISOString().slice(0, 10);
@@ -51,3 +52,4 @@ class BorrowInList extends Component {
 }
 
 export default BorrowInList;
+

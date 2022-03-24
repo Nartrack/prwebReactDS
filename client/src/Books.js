@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import './App.css';
-import { Navigate } from 'react-router-dom';
-import BookInList from './BookInList';
+import { Redirect } from 'react-router';
 import { postServiceData } from './util';
+import BookInList from './BookInList';
+import './App.css';
 
 class Books extends Component {
-    constructor(props){
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.state = {books: [], canCreate: false, switchUsers:false};
+		this.state = {books: [], canCreate: false, switchUsers:false};
 		this.getBooks = this.getBooks.bind(this);
 		this.createBook = this.createBook.bind(this);
 		this.switchUsers = this.switchUsers.bind(this);
@@ -33,52 +33,60 @@ class Books extends Component {
     }
 
     render() {
-        if (this.state.canCreate){
-            return <Navigate push to={"/book/NEW"}/>;
-        }
-        if (this.state.switchUsers) {
-            return <Navigate push to="/users" />;
-        }
-    return (
-        <div className="App">
-            <table className="noborder">
-                <tbody>
-                    <tr>
-                        <td className="noborder"><h1>List of books</h1></td>
-                        <td className="noborder"><form onSubmit={this.switchUsers}><button>Switch users</button></form></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table className="books-table">
-                <thead>
-                    <tr>
-                        <th id="book-title">Book #</th>
-                        <th id="booktitle-title">Title</th>
-                        <th id="author-title">Author</th>
-                        <th id="modification-title">Modification</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {this.state.books.map((book) => <BookInList book={book} key={book.book_id} /> )}
-                </tbody>
-
-                <tfoot>
-                    <tr id="addNew">
-                        <td colSpan="4"></td>
-                        <td className="centered">
-                            <form>
-                                <button onClick={this.createBook}><img src="img/plus.png" alt="add" className="icon"/></button>
-                            </form>
-                        </td>
-                    </tr>
-                </tfoot>
-                
-                
-            </table>
-        </div>
-    );
+    const token = this.props.getToken();
+    if (!token) {
+        console.log("missing token");
+        return <Redirect push to="/" />;
     }
+    if (this.state.canCreate) {
+        return <Redirect to={{
+            pathname: "/book",
+            state: {bookId: -1}
+        }} />;
+    }
+    if (this.state.switchUsers) {
+        return <Redirect to="/users" />;
+    }
+    return (
+      <div className="App">
+        <table className="noborder">
+        	<tbody>
+            <tr>
+                <td className="noborder"><h1>List of books</h1></td>
+                <td className="noborder"><form onSubmit={this.switchUsers}><button>Switch users</button></form></td>
+            </tr>
+        	</tbody>
+        </table>
+
+        <table className="list">
+        	<thead>
+            <tr>
+                <th >book #</th>
+                <th>Title</th>
+                <th>Authors</th>
+                <th ></th>
+            </tr>
+        	</thead>
+        	
+        	<tbody>
+                {this.state.books.map((book) => <BookInList book={book} key={book.book_id} /> )}
+        	</tbody>
+
+        	<tfoot>
+            <tr id="addNew">
+                <td colSpan="3"></td>
+                <td className="centered">
+                    <form onSubmit={this.createBook}>
+                        <button><img src="img/plus.png" alt="add" className="icon" /></button>
+                    </form>
+                </td>
+            </tr>
+        	</tfoot>
+        </table>
+      </div>
+    );
+  }
 }
+
 export default Books;
+
