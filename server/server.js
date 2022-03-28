@@ -203,7 +203,8 @@ app.post("/saveBook", function (req, res) {
 app.post("/deleteBook", function (req, res) {
   var book_id = req.body.book_id;
 
-  var sqlRequest = "DELETE FROM Book WHERE Book_ID=$1";
+  var sqlRequest =
+    "UPDATE Book SET Book_Available='0' WHERE Book_ID=$1 RETURNING Book_ID";
   var values = [book_id];
   getSQLResult(req, res, sqlRequest, values);
 });
