@@ -178,23 +178,24 @@ app.post("/saveBook", function (req, res) {
   var book_id = req.body.book_id;
   var book_title = req.body.book_title;
   var book_authors = req.body.book_authors;
+  var book_available = req.body.book_available;
 
   var sqlRequest = "";
   var values = [];
   // We build a request that returns ID value to be able to return it
   if (book_id < 0) {
     sqlRequest =
-      "INSERT INTO Book(Book_Title, Book_Authors)" +
-      " VALUES ($1, $2)" +
+      "INSERT INTO Book(Book_Title, Book_Authors, Book_Available)" +
+      " VALUES ($1, $2, $3)" +
       " RETURNING Book_ID";
-    values = [book_title, book_authors];
+    values = [book_title, book_authors, book_available];
   } else {
     sqlRequest =
       "UPDATE Book SET" +
-      " Book_Title=$1, Book_Authors=$2" +
-      " WHERE Book_ID=$3" +
+      " Book_Title=$1, Book_Authors=$2, Book_Available=$3" +
+      " WHERE Book_ID=$4" +
       " RETURNING Book_ID";
-    values = [book_title, book_authors, book_id];
+    values = [book_title, book_authors, book_available, book_id];
   }
   getSQLResult(req, res, sqlRequest, values);
 });

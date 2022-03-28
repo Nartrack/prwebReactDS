@@ -46,6 +46,7 @@ class BookInList extends Component {
         <td>{book.book_id}</td>
         <td>{book.book_title}</td>
         <td>{book.book_authors}</td>
+        <td>{book.book_available}</td>
         <td>
           <form>
             <button onClick={this.editBook}>

@@ -10,6 +10,7 @@ class Book extends Component {
       book_id: "NEW",
       book_title: "",
       book_authors: "",
+      book_available: "1",
       canGoBack: false,
     };
 
@@ -31,6 +32,7 @@ class Book extends Component {
       this.setState({ book_id: book.book_id });
       this.setState({ book_title: book.book_title });
       this.setState({ book_authors: book.book_authors });
+      this.setState({ book_available: book.book_available });
     });
   }
 
@@ -40,6 +42,7 @@ class Book extends Component {
       book_id: this.state.book_id,
       book_title: this.state.book_title,
       book_authors: this.state.book_authors,
+      book_available: this.state.book_available,
     };
     if (params.book_id === "NEW") {
       params.book_id = -1;
@@ -96,6 +99,10 @@ class Book extends Component {
                     onChange={this.handleChangeBookAuthors}
                   />
                 </td>
+              </tr>
+              <tr>
+                <th>book #</th>
+                <td>{this.state.book_available}</td>
               </tr>
               <tr>
                 <td colSpan="2">

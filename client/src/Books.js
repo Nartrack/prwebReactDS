@@ -74,6 +74,7 @@ class Books extends Component {
               <th>book #</th>
               <th>Title</th>
               <th>Authors</th>
+              <th>Available</th>
               <th></th>
             </tr>
           </thead>
